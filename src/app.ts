@@ -1,4 +1,6 @@
-require('dotenv').config();
+import * as dotenv from "dotenv";
+dotenv.config();
+
 import express from 'express';
 import routes from './routes';
 import connectRedis from './middleware/redis';

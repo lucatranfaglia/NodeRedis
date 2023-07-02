@@ -1,8 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import { createClient } from 'redis';
-require('dotenv').config();
-const client = createClient();
-client.on('error', error => console.log('Redis Client Error', error));
+import { RedisFunctions, RedisModules, RedisScripts, createClient } from 'redis';
+import * as dotenv from "dotenv";
+dotenv.config();
+
+
+const redisURL : string | undefined = process.env.URL_REDIS;
+const client = createClient<RedisModules, RedisFunctions, RedisScripts>();
 
 /**
  * Connect Redis
@@ -12,7 +15,12 @@ client.on('error', error => console.log('Redis Client Error', error));
  * @returns 
  */
 export const connectRedis = async (req: Request, res: Response, next: NextFunction) =>{  
-  await client.connect();
+  client.on('error', error => console.log('Redis Client Error', error));
+  try {
+    await client.connect();    
+  } catch (error) {
+    res.status(403).send("connection failed!");
+  }
   return next();
 }
 

@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "ts-node-dev --respwan --transple-only src/app.ts",
+    "test": "nodemon src/app.ts",
     "tsc": "tsc"
   },
   "keywords": [
